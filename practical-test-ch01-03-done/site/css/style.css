@@ -1,0 +1,301 @@
+/* =========================================================
+   Biến dùng chung — đúng mã màu đề yêu cầu
+   Chính: #006CB4  |  Cảnh báo: #E40C24
+   ========================================================= */
+:root {
+  --color-primary: #E40C24;
+  --color-primary-dark: #B80A1E;
+  --color-primary-light: #FF4D5E;
+  --color-danger: #E40C24;
+  --color-danger-dark: #B80A1E;
+
+  --color-bg: #0B0B0D;
+  --color-surface: #17171B;
+  --color-text: #F2F2F4;
+  --color-muted: #A5A5AE;
+  --color-border: #2E2E35;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 18px 40px rgba(228, 12, 36, 0.25);
+}
+
+/* ===== Mọi phần tử dùng border-box ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.6;
+}
+
+a { color: var(--color-primary); }
+
+/* =========================================================
+   Đầu trang — Flexbox: logo trái, menu phải
+   ========================================================= */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-xl);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-decoration: none;
+}
+
+.logo::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.25);
+}
+
+.menu {
+  display: flex;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu a {
+  display: block;
+  padding: 8px 16px;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: var(--radius-pill);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.menu a:hover,
+.menu a:focus-visible {
+  color: var(--color-primary-dark);
+  background: #fff;
+}
+
+/* =========================================================
+   Nội dung chính
+   ========================================================= */
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-md) var(--space-xl);
+}
+
+h1 {
+  margin: 0 0 var(--space-lg);
+  padding-left: var(--space-md);
+  font-size: 1.9rem;
+  border-left: 6px solid var(--color-primary);
+  color: var(--color-text);
+}
+
+/* =========================================================
+   Form tìm kiếm
+   ========================================================= */
+.search-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  padding: var(--space-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.search-form label {
+  color: var(--color-muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.search-form input[type="search"] {
+  flex: 1 1 220px;
+  padding: 11px 14px;
+  font-size: 0.97rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-form input[type="search"]::placeholder { color: #9AA6B8; }
+
+.search-form input[type="search"]:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(228, 12, 36, 0.22);
+}
+
+.search-form button {
+  padding: 11px var(--space-lg);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  background: var(--color-primary);
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.search-form button:hover { background: var(--color-primary-dark); }
+.search-form button:active { transform: scale(0.97); }
+
+#status {
+  margin: 0 0 var(--space-lg);
+  padding-left: 2px;
+  color: var(--color-muted);
+  font-size: 0.92rem;
+  min-height: 1.4em;
+}
+
+/* =========================================================
+   Danh sách card — Grid, mobile-first
+   1 cột (mobile) → 768px: 2 cột → 1200px: 3 cột
+   ========================================================= */
+.event-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .event-list { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1200px) {
+  .event-list { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ===== Card ===== */
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-primary-light);
+  box-shadow: var(--shadow-lg);
+}
+
+.card img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 170px;
+  object-fit: cover;
+  background: linear-gradient(135deg, #1F1F26, #2A2A33);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-md) var(--space-lg);
+  flex: 1;
+}
+
+.card-body h2 {
+  margin: 0 0 var(--space-xs);
+  font-size: 1.1rem;
+  line-height: 1.35;
+}
+
+.card-body h2 a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.card-body h2 a:hover { color: var(--color-primary); text-decoration: underline; }
+
+.card-body p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.92rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-body time { font-weight: 600; color: var(--color-text); }
+
+/* ===== Nhãn "Hết chỗ" ===== */
+.badge-full {
+  display: inline-block;
+  padding: 3px 12px;
+  color: #fff;
+  background: var(--color-danger);
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.2px;
+}
+
+/* =========================================================
+   Chân trang
+   ========================================================= */
+.site-footer {
+  padding: var(--space-lg) var(--space-md);
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.88rem;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+}
+
+.site-footer p { margin: 0; }
