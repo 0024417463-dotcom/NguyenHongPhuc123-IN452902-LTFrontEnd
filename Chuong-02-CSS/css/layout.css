@@ -1,0 +1,187 @@
+/* ==========================================================================
+   layout.css — khung trang: container, header, footer, lưới nội dung
+   Mobile-first; chỉ 2 mốc: width >= 40rem và width >= 64rem.
+   ========================================================================== */
+
+.container {
+  inline-size: 100%;
+  max-inline-size: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+
+  @media (width >= 40rem) {
+    padding-inline: var(--space-6);
+  }
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  background: var(--color-header-bg);
+  color: var(--color-header-text);
+  z-index: 10;
+
+  @media (width >= 40rem) {
+    position: sticky;
+    top: 0;
+  }
+
+  & :focus-visible {
+    outline-color: var(--color-accent);
+  }
+}
+
+.site-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-6);
+  padding-block: var(--space-2);
+}
+
+.site-nav__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  margin: 0;
+  list-style: none;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  margin-block-start: var(--space-12);
+  padding-block: var(--space-8);
+  background: var(--color-footer-bg);
+  color: var(--color-footer-text);
+  font-size: var(--text-sm);
+
+  & a {
+    color: var(--color-accent);
+  }
+  & :focus-visible {
+    outline-color: var(--color-accent);
+  }
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+
+  @media (width >= 64rem) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-6);
+  }
+}
+
+/* ---------- Trang & section ---------- */
+.page {
+  padding-block: var(--space-8) var(--space-4);
+
+  & > h1 {
+    margin-block-end: var(--space-3);
+  }
+}
+
+.page--narrow {
+  max-inline-size: 44rem;
+}
+
+.page__intro {
+  max-inline-size: 60ch;
+  margin-block-end: var(--space-6);
+  color: var(--color-text-muted);
+}
+
+.section {
+  padding-block: var(--space-8);
+}
+
+.section__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin-block-end: var(--space-6);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: var(--space-6);
+  margin-block-start: var(--space-6);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--color-hero-from), var(--color-hero-to));
+  color: var(--palette-white);
+
+  /* Hero dùng chung .container nhưng cần padding riêng: trừ lề gutter để khớp các section */
+  --gutter: var(--space-4);
+  inline-size: min(100% - 2 * var(--gutter), var(--container-max) - 2 * var(--gutter));
+  max-inline-size: none;
+  padding-inline: var(--space-6);
+
+  @media (width >= 40rem) {
+    --gutter: var(--space-6);
+    padding: var(--space-8);
+  }
+
+  @media (width >= 64rem) {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+    padding: var(--space-12);
+  }
+
+  & :focus-visible {
+    outline-color: var(--palette-white);
+  }
+}
+
+/* ---------- Lưới card (không dùng media query) ---------- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+  gap: var(--space-6);
+  margin: 0;
+  list-style: none;
+}
+
+/* ---------- Trang chi tiết ---------- */
+.detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+
+  @media (width >= 64rem) {
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas:
+      "head head"
+      "media info"
+      "content info"
+      "prep info"
+      "foot foot";
+    column-gap: var(--space-8);
+
+    & > .detail__head    { grid-area: head; }
+    & > .detail__media   { grid-area: media; }
+    & > .detail__info    { grid-area: info; }
+    & > .detail__content { grid-area: content; }
+    & > .detail__prep    { grid-area: prep; }
+    & > .detail__foot    { grid-area: foot; }
+  }
+}
+
+.detail__info {
+  align-self: start;
+
+  @media (width >= 64rem) {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-4));
+  }
+}
