@@ -1,4 +1,4 @@
-// Câu 2: viết JavaScript tại đây
+// Câu 2: lấy dữ liệu sự kiện từ API và hiển thị
 
 const API_URL = 'http://localhost:4000';
 
@@ -10,88 +10,91 @@ const formatDateTime = (iso) =>
     day: '2-digit', month: '2-digit', year: 'numeric',
   });
 
-// ---------- Câu 2a: định dạng số chỗ ----------
-const formatSeats = (event) => {
-  const remaining = event.capacity - event.registeredCount;
-  return remaining > 0 ? `Còn ${remaining}/${event.capacity} chỗ` : 'Hết chỗ';
+const SOLD_OUT = 'Hết chỗ';
+const MSG = {
+  loading: 'Đang tải…',
+  empty: 'Không có sự kiện nào khớp từ khoá.',
+  error: 'Không tải được dữ liệu, vui lòng thử lại.',
+  found: (n) => `Tìm thấy ${n} sự kiện`,
 };
 
-// ---------- Câu 2b: vẽ danh sách card ----------
-const createEventCard = (event) => {
-  const article = document.createElement('article');
-  article.className = 'card';
+const listEl = document.querySelector('#event-list');
+const statusEl = document.querySelector('#status');
+const formEl = document.querySelector('#search-form');
+const keywordEl = document.querySelector('#keyword');
 
-  const img = document.createElement('img');
-  img.setAttribute('src', 'img/event.svg');
-  img.setAttribute('alt', `Minh hoạ sự kiện ${event.name}`);
-  img.setAttribute('width', '320');
-  img.setAttribute('height', '180');
+// Tạo phần tử, gán class/văn bản/thuộc tính (không dùng innerHTML)
+const makeEl = (tag, { cls, text, attrs = {} } = {}, ...children) => {
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (text !== undefined) node.textContent = text;
+  Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, value));
+  node.append(...children);
+  return node;
+};
 
-  const body = document.createElement('div');
-  body.className = 'card-body';
+// ---------- 2a ----------
+const formatSeats = (event) => {
+  const left = event.capacity - event.registeredCount;
+  return left > 0 ? `Còn ${left}/${event.capacity} chỗ` : SOLD_OUT;
+};
 
-  const h2 = document.createElement('h2');
-  const link = document.createElement('a');
-  link.setAttribute('href', `event-detail.html?id=${encodeURIComponent(event.id)}`);
-  link.textContent = event.name;
-  h2.append(link);
-
-  const pTime = document.createElement('p');
-  const time = document.createElement('time');
-  time.setAttribute('datetime', event.startTime);
-  time.textContent = formatDateTime(event.startTime);
-  pTime.append(time);
-
-  const pLocation = document.createElement('p');
-  pLocation.textContent = event.location;
-
-  const pSeats = document.createElement('p');
+// ---------- 2b ----------
+const buildCard = (event) => {
   const seatsText = formatSeats(event);
-  if (seatsText === 'Hết chỗ') {
-    const badge = document.createElement('span');
-    badge.className = 'badge-full';
-    badge.textContent = seatsText;
-    pSeats.append(badge);
-  } else {
-    pSeats.textContent = seatsText;
-  }
+  const seatsContent = seatsText === SOLD_OUT
+    ? makeEl('span', { cls: 'tag-full', text: SOLD_OUT })
+    : seatsText;
 
-  body.append(h2, pTime, pLocation, pSeats);
-  article.append(img, body);
-  return article;
+  return makeEl('article', { cls: 'ev' },
+    makeEl('img', {
+      cls: 'ev-img',
+      attrs: {
+        src: 'img/event.svg',
+        alt: `Minh hoạ sự kiện ${event.name}`,
+        width: '320',
+        height: '180',
+      },
+    }),
+    makeEl('div', { cls: 'ev-body' },
+      makeEl('h2', { cls: 'ev-name' },
+        makeEl('a', {
+          text: event.name,
+          attrs: { href: `event-detail.html?id=${encodeURIComponent(event.id)}` },
+        })),
+      makeEl('p', { cls: 'ev-meta ev-when' },
+        makeEl('time', { text: formatDateTime(event.startTime), attrs: { datetime: event.startTime } })),
+      makeEl('p', { cls: 'ev-meta ev-where', text: event.location }),
+      makeEl('p', { cls: 'ev-meta ev-seats' }, seatsContent),
+    ));
 };
 
 const renderEvents = (events) => {
-  const list = document.querySelector('#event-list');
-  list.replaceChildren(...events.map(createEventCard));
+  listEl.replaceChildren(...events.map(buildCard));
 };
 
-// ---------- Câu 2c: gọi API ----------
-const statusEl = document.querySelector('#status');
-
+// ---------- 2c ----------
 const loadEvents = async (keyword = '') => {
-  const params = new URLSearchParams({ pageSize: '50' });
-  if (keyword !== '') params.set('q', keyword);
+  const query = new URLSearchParams({ pageSize: 50 });
+  if (keyword) query.append('q', keyword);
 
-  statusEl.textContent = 'Đang tải…';
+  statusEl.textContent = MSG.loading;
   try {
-    const response = await fetch(`${API_URL}/api/events?${params}`);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
+    const res = await fetch(`${API_URL}/api/events?${query.toString()}`);
+    if (!res.ok) throw new Error(`Máy chủ trả về ${res.status}`);
 
-    renderEvents(data.items);
-    statusEl.textContent = data.items.length === 0
-      ? 'Không có sự kiện nào khớp từ khoá.'
-      : `Tìm thấy ${data.totalCount} sự kiện`;
-  } catch (error) {
-    console.error(error);
-    statusEl.textContent = 'Không tải được dữ liệu, vui lòng thử lại.';
+    const { items, totalCount } = await res.json();
+    renderEvents(items);
+    statusEl.textContent = items.length ? MSG.found(totalCount) : MSG.empty;
+  } catch (err) {
+    console.error(err);
+    statusEl.textContent = MSG.error;
   }
 };
 
-document.querySelector('#search-form').addEventListener('submit', (e) => {
-  e.preventDefault();
-  loadEvents(document.querySelector('#keyword').value.trim());
+formEl.addEventListener('submit', (event) => {
+  event.preventDefault();
+  loadEvents(keywordEl.value.trim());
 });
 
 loadEvents();
