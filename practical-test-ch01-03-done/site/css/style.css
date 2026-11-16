@@ -1,301 +1,248 @@
-/* =========================================================
-   Biến dùng chung — đúng mã màu đề yêu cầu
-   Chính: #006CB4  |  Cảnh báo: #E40C24
-   ========================================================= */
+/* ===== Biến dùng chung: chính #006CB4, cảnh báo #E40C24 ===== */
 :root {
-  --color-primary: #E40C24;
-  --color-primary-dark: #B80A1E;
-  --color-primary-light: #FF4D5E;
-  --color-danger: #E40C24;
-  --color-danger-dark: #B80A1E;
+  --brand: #006CB4;
+  --brand-deep: #004B7F;
+  --brand-wash: #E8F3FB;
+  --warn: #E40C24;
 
-  --color-bg: #0B0B0D;
-  --color-surface: #17171B;
-  --color-text: #F2F2F4;
-  --color-muted: #A5A5AE;
-  --color-border: #2E2E35;
+  --paper: #F6F4EF;
+  --card: #FFFFFF;
+  --ink: #1D2733;
+  --ink-soft: #5E6B7A;
+  --line: #DAD6CC;
 
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 40px;
-
-  --radius-sm: 6px;
-  --radius-md: 14px;
-  --radius-pill: 999px;
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 18px 40px rgba(228, 12, 36, 0.25);
+  --gap-1: 6px;
+  --gap-2: 12px;
+  --gap-3: 20px;
+  --gap-4: 32px;
+  --round: 10px;
 }
 
-/* ===== Mọi phần tử dùng border-box ===== */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html { scroll-behavior: smooth; }
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
   margin: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
-  color: var(--color-text);
-  background: var(--color-bg);
-  line-height: 1.6;
+  font: 16px/1.55 "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
 }
 
-a { color: var(--color-primary); }
+a { color: var(--brand); }
 
-/* =========================================================
-   Đầu trang — Flexbox: logo trái, menu phải
-   ========================================================= */
-.site-header {
+/* ===== Đầu trang: Flexbox, logo trái - menu phải ===== */
+.topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--space-md);
-  padding: var(--space-md) var(--space-xl);
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  box-shadow: var(--shadow-md);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  gap: var(--gap-2);
+  padding: var(--gap-2) var(--gap-3);
+  background: var(--card);
+  border-bottom: 4px solid var(--brand);
 }
 
-.logo {
-  display: flex;
+.brand {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  color: #fff;
-  font-size: 1.4rem;
+  gap: var(--gap-2);
+  font-size: 1.3rem;
   font-weight: 800;
-  letter-spacing: 0.3px;
+  color: var(--brand-deep);
   text-decoration: none;
 }
 
-.logo::before {
-  content: "";
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.25);
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: #fff;
+  background: var(--brand);
+  border-radius: 8px 8px 8px 0;
+  font-size: 1.1rem;
 }
 
-.menu {
+.nav-links {
   display: flex;
-  gap: var(--space-xs);
+  gap: var(--gap-1);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.menu a {
+.nav-links a {
   display: block;
-  padding: 8px 16px;
-  color: rgba(255, 255, 255, 0.88);
+  padding: 6px 14px;
+  color: var(--ink);
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.95rem;
-  border-radius: var(--radius-pill);
-  transition: background 0.2s ease, color 0.2s ease;
+  border-bottom: 2px solid transparent;
 }
 
-.menu a:hover,
-.menu a:focus-visible {
-  color: var(--color-primary-dark);
-  background: #fff;
+.nav-links a:hover,
+.nav-links a[aria-current="page"] {
+  color: var(--brand);
+  border-bottom-color: var(--brand);
 }
 
-/* =========================================================
-   Nội dung chính
-   ========================================================= */
-main {
+/* ===== Nội dung ===== */
+.page {
   flex: 1;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1160px;
   margin: 0 auto;
-  padding: var(--space-xl) var(--space-md) var(--space-xl);
+  padding: var(--gap-4) var(--gap-3);
 }
 
-h1 {
-  margin: 0 0 var(--space-lg);
-  padding-left: var(--space-md);
-  font-size: 1.9rem;
-  border-left: 6px solid var(--color-primary);
-  color: var(--color-text);
+.page-title {
+  margin: 0 0 var(--gap-3);
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  color: var(--brand-deep);
 }
 
-/* =========================================================
-   Form tìm kiếm
-   ========================================================= */
-.search-form {
+.finder {
   display: flex;
   flex-wrap: wrap;
+  gap: var(--gap-2);
   align-items: center;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-md);
-  padding: var(--space-md);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--gap-2);
 }
 
-.search-form label {
-  color: var(--color-muted);
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.search-form input[type="search"] {
-  flex: 1 1 220px;
-  padding: 11px 14px;
-  font-size: 0.97rem;
-  color: var(--color-text);
-  background: var(--color-bg);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.search-form input[type="search"]::placeholder { color: #9AA6B8; }
-
-.search-form input[type="search"]:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(228, 12, 36, 0.22);
-}
-
-.search-form button {
-  padding: 11px var(--space-lg);
-  color: #fff;
+.finder label {
   font-weight: 700;
-  font-size: 0.95rem;
-  background: var(--color-primary);
-  border: 0;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
+  color: var(--ink-soft);
 }
 
-.search-form button:hover { background: var(--color-primary-dark); }
-.search-form button:active { transform: scale(0.97); }
+.finder input {
+  flex: 1 1 240px;
+  padding: 10px 14px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: var(--round);
+}
+
+.finder input:focus {
+  outline: none;
+  border-color: var(--brand);
+  background: var(--brand-wash);
+}
+
+.finder button {
+  padding: 10px 28px;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: var(--brand);
+  border: 2px solid var(--brand);
+  border-radius: var(--round);
+  cursor: pointer;
+}
+
+.finder button:hover { background: var(--brand-deep); border-color: var(--brand-deep); }
 
 #status {
-  margin: 0 0 var(--space-lg);
-  padding-left: 2px;
-  color: var(--color-muted);
-  font-size: 0.92rem;
-  min-height: 1.4em;
+  min-height: 1.6em;
+  margin: 0 0 var(--gap-3);
+  font-style: italic;
+  color: var(--ink-soft);
 }
 
-/* =========================================================
-   Danh sách card — Grid, mobile-first
-   1 cột (mobile) → 768px: 2 cột → 1200px: 3 cột
-   ========================================================= */
-.event-list {
+/* ===== Lưới card, mobile-first: 1 -> 2 (768px) -> 3 (1200px) cột ===== */
+.cards {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-lg);
+  gap: var(--gap-3);
 }
 
 @media (min-width: 768px) {
-  .event-list { grid-template-columns: repeat(2, 1fr); }
+  .cards { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (min-width: 1200px) {
-  .event-list { grid-template-columns: repeat(3, 1fr); }
+  .cards { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* ===== Card ===== */
-.card {
+.ev {
   display: flex;
   flex-direction: column;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--brand);
+  border-radius: var(--round);
+  transition: box-shadow 0.2s, transform 0.2s;
 }
 
-.card:hover {
-  transform: translateY(-6px);
-  border-color: var(--color-primary-light);
-  box-shadow: var(--shadow-lg);
+.ev:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(29, 39, 51, 0.12);
 }
 
-.card img {
+.ev-img {
   display: block;
   width: 100%;
   max-width: 100%;
-  height: 170px;
+  height: 150px;
   object-fit: cover;
-  background: linear-gradient(135deg, #1F1F26, #2A2A33);
+  background: var(--brand-wash);
+  border-bottom: 1px solid var(--line);
 }
 
-.card-body {
+.ev-body {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-md) var(--space-md) var(--space-lg);
-  flex: 1;
+  gap: var(--gap-1);
+  padding: var(--gap-3);
 }
 
-.card-body h2 {
-  margin: 0 0 var(--space-xs);
+.ev-name {
+  margin: 0 0 var(--gap-1);
   font-size: 1.1rem;
   line-height: 1.35;
 }
 
-.card-body h2 a {
-  color: var(--color-text);
-  text-decoration: none;
-}
+.ev-name a { color: var(--ink); text-decoration: none; }
+.ev-name a:hover { color: var(--brand); text-decoration: underline; }
 
-.card-body h2 a:hover { color: var(--color-primary); text-decoration: underline; }
-
-.card-body p {
-  margin: 0;
-  color: var(--color-muted);
-  font-size: 0.92rem;
+.ev-meta {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--gap-1);
+  margin: 0;
+  font-size: 0.93rem;
+  color: var(--ink-soft);
 }
 
-.card-body time { font-weight: 600; color: var(--color-text); }
+.ev-when::before  { content: "🗓"; }
+.ev-where::before { content: "📍"; }
+.ev-seats::before { content: "🎟"; }
 
-/* ===== Nhãn "Hết chỗ" ===== */
-.badge-full {
-  display: inline-block;
-  padding: 3px 12px;
+.ev-when time { font-weight: 700; color: var(--brand-deep); }
+
+/* ===== Nhãn "Hết chỗ": chữ trắng, nền màu cảnh báo ===== */
+.tag-full {
+  padding: 2px 12px;
   color: #fff;
-  background: var(--color-danger);
-  border-radius: var(--radius-pill);
+  background: var(--warn);
+  border-radius: 4px;
   font-weight: 700;
   font-size: 0.82rem;
-  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* =========================================================
-   Chân trang
-   ========================================================= */
-.site-footer {
-  padding: var(--space-lg) var(--space-md);
+/* ===== Chân trang ===== */
+.foot {
+  padding: var(--gap-3);
   text-align: center;
-  color: var(--color-muted);
-  font-size: 0.88rem;
-  background: var(--color-surface);
-  border-top: 1px solid var(--color-border);
+  color: #fff;
+  background: var(--brand-deep);
+  font-size: 0.9rem;
 }
 
-.site-footer p { margin: 0; }
+.foot p { margin: 0; }
